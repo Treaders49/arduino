@@ -23,9 +23,12 @@ void sortLetters() {
     }
     for (int y = 0 ; y < elementIndex - 1; y++) {
       if (channels[y][0] > channels[y+1][0]) {
-        String temp = channels[y][0];
-        channels[y][0] = channels[y+1][0] ;
-        channels[y+1][0] = temp;
+        for (int z = 0; z < 4;z++) {
+          String temp = channels[y][z];
+          channels[y][z] = channels[y+1][z] ;
+          channels[y+1][z] = temp;
+        }
+        
         
       }
       
@@ -77,17 +80,24 @@ void loop() {
     switch(message.charAt(0)) {
       case 'C': {
         channels[elementIndex][0] = message.charAt(1);
+        channels[elementIndex][2] = "0";
+        channels[elementIndex][3] = "255";
         elementIndex++;
         sortLetters();
         lcd.setCursor(1,0);
         lcd.print(channels[menuPosition][0]);
         lcd.setCursor(1,1);
         lcd.print(channels[menuPosition+1][0]);
+        lcd.setCursor(2,0);
+        lcd.print(channels[menuPosition][1]);
+        lcd.setCursor(2,1);
+        lcd.print(channels[menuPosition+1][1]);
         
         
       }
       case 'V': {
-        
+        int index = findValue(message.charAt(1));
+        channels[index][1] = substring(2,4);
       }
       case 'N': {
         
